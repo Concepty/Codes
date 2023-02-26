@@ -1,9 +1,11 @@
-from test_pkg.test_mod import *
-from test_pkg2.test_mod import *
+from test_pkg.test_mod_with_all import *
+from test_pkg.test_mod_without_all import *
+from test_pkg.test_mod_register_builder import *
 
-test()
-test2()
+test_with_all()
+test_without_all()
+test_register_builder()
 
 """
-there is warning in visual studio code because the test function is dynamically added to test_pkg.test_mod.__all__
+there is warning in visual studio code because the test function is dynamically added to test_pkg.test_mod_*.__all__
 """
