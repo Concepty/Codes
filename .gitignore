@@ -3,3 +3,4 @@ Python/test_pywin32/pywin/
 *.exe
 **/.vscode
 *.o
+design_patterns/template_method/template_method_env/
