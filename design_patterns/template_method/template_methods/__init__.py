@@ -4,6 +4,6 @@ class teme_PermissionChecker:
     def check_sufficient(self):
         raise NotImplementedError("teme_PermissionChecker.check_visitor must be implemented")
     def check_permission(self):
-        if self.check_sufficent(): return True
+        if self.check_sufficient(): return True
         elif self.check_required(): return True
         else: return False
