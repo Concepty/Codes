@@ -9,7 +9,7 @@ class LoginPermissionChecker(teme_PermissionChecker):
     def check_required(self):
         if not "logged_in" in session: return True
         else:
-            if session.get('user_name') == request.form.get('user'): return True
+            if session.get('user_name') == request.args.get('private_user'): return True
             else: return False
     def check_sufficient(self):
         return False
@@ -17,9 +17,11 @@ class LoginPermissionChecker(teme_PermissionChecker):
 class VisitorPermissionChecker(teme_PermissionChecker):
     def check_required(self):
         if not 'logged_in' in session: return False
-        if request.args.get('user') == session.get('user_name'): return True
-        if find_user_by_name(request.args.get('user')).group.name == \
-            find_user_by_name(session.get('user_name')).group.name: return True
+        if request.args.get('journal_user') == session.get('user_name'): return True
+        journal_user_group = find_user_by_name(request.args.get('journal_user')).group
+        session_user_group = find_user_by_name(session.get('user_name')).group
+        if not journal_user_group is None and not session_user_group is None:
+            if journal_user_group.name == session_user_group.name: return True
         else: return False
     def check_sufficient(self):
         if 'temp_permission' in session:

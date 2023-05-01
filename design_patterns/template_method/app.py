@@ -13,7 +13,14 @@ def render(inner_template, **kwargs):
 
 @app.before_request
 def before_request():
-    pass
+    print('==========================')
+    print("session['logged_in']", session.get('logged_in'))
+    print("session['user_name']", session.get('user_name'))
+    print("session['temp_permission']", session.get('temp_permission'))
+    print('args', dict.items(request.args))
+    print('forms', dict.items(request.form))
+
+    
 
 @app.route('/')
 @app.route('/index')
@@ -27,7 +34,7 @@ def login():
         return redirect(url_for('index'))
     else:
         session['logged_in'] = True
-        session['user_name'] = request.args.get('user_name')
+        session['user_name'] = request.form.get('user_name')
     return redirect(url_for('index'))
 
 @app.route('/logout', methods = ['POST'])
@@ -41,13 +48,13 @@ def get_temp_permission():
     return render('index.html')
 
 
-@app.route('/journal/<user_name>/<id>')
+@app.route('/journal')
 @check_visitor_permission
-def user_journal(user_name: str, id: int):
-    id = int(id) - 1
-    writer = find_user_by_name(user_name)
+def user_journal():
+    id = int(request.args.get('id', 1)) - 1
+    writer = find_user_by_name(request.args.get('journal_user'))
     if writer is None: render("journal.html", journal_content = 'No content')
-    journal_content = find_user_by_name(user_name).journals[id]
+    journal_content = find_user_by_name(request.args.get('journal_user')).journals[id]
     return render("journal.html", journal_content = journal_content)
 
 app.run(port = 5000)
