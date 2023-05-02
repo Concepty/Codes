@@ -4,3 +4,4 @@ Python/test_pywin32/pywin/
 **/.vscode
 *.o
 design_patterns/template_method/template_method_env/
+cryptography/crypto_env/
